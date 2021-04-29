@@ -170,9 +170,9 @@ $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --en
 $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --engine_dir ./output/detr_batch_2_fp16.plan --batch_size=2 --fp16
 ```
 
-TensorRT Inference的结果Demo(左trt fp32,右trt fp16):
+TensorRT Inference的结果Demo(上trt fp32,下trt fp16):
 
-<center class="half">    <img src="./pic/test_fp32.jpg" width="500"/><img src="./pic/test_fp16.jpg" width="500"/> </center>
+<center class="half">    <img src="./pic/test_fp32.jpg" /><img src="./pic/test_fp16.jpg" /> </center>
 
 + 2.使用trtexec
 
