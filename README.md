@@ -56,7 +56,7 @@
 ├── generate_batch_plan.py  # 生成batched static tensorrt 序列化engine文件，支持FP32,FP16,任意batch size
 ├── inference_detr_onnx.py   # onnx runtime模型推断，支持static,dynamic shape,用于验证onnx的正确性
 ├── inference_detr_trt.py   # tensorrt模型推断，支持，static,dynamic shape,FP32,FP16,INT8并检验engine是否存在，不存在调用序列化程序
-├── performance_accuracy_detr.py  # TensorRT识别精度的计算很可视化
+├── performance_accuracy_detr.py  # TensorRT识别精度的计算和可视化
 ├── performance_time_detr.py      # TensorRT benchmark的计算和可视化
 ├── trt_int8_quant.py  # INT8量化，并生成量化模型的engine和cache文件
 |
@@ -170,9 +170,9 @@ $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --en
 $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --engine_dir ./output/detr_batch_2_fp16.plan --batch_size=2 --fp16
 ```
 
-TensorRT Inference的结果Demo(上trt fp32,下trt fp16):
+TensorRT Inference的结果Demo(左trt fp32,右trt fp16):
 
-<center class="half">    <img src="./pic/test_fp32.jpg" /><img src="./pic/test_fp16.jpg"/> </center>
+<center class="half">    <img src="./pic/test_fp32.jpg" width="500"/><img src="./pic/test_fp16.jpg" width="500"/> </center>
 
 + 2.使用trtexec
 
@@ -183,7 +183,7 @@ TensorRT Inference的结果Demo(上trt fp32,下trt fp16):
 trtexec --verbose --onnx=detr.onnx --saveEngine=detr.plan   # error
 trtexec --verbose --onnx=detr_sim.onnx --saveEngine=detr.plan
 
-trtexec --verbose --onnx=detr_sim.onnx --saveEngine=detr.plan --FP16
+trtexec --verbose --onnx=detr_sim.onnx --saveEngine=detr.plan --fp16
 
 # dynamic shape (error)
 # FP32
@@ -263,6 +263,8 @@ $ nsys-ui nsight_detr_out
 ![识别精度](pic/average_diff_percentage.png)
 
 <center><b> 测试1000张图像，平均相对精度基本满足条件，正常的FP32在1e-6,FP16在1e-3数量级</b></cemter>
+
+
 
 
 
@@ -374,10 +376,10 @@ Add_690 + Relu_691                  4.71           0.0560           0.2
 
 
 
-### 7.其他
+### 7.连接地址
 
-1. 项目模型下载地址包括.pth,.onnx,.plan模型文件： <TODO>
-2. 项目中生成的日志文件下载地址： <TODO>
+1. 项目模型下载地址包括.pth,.onnx,.plan模型文件： 链接：https://pan.baidu.com/s/1IsHHfFi5zphpbfGTmvPIag      提取码：detr 
+2. 项目中生成的日志文件下载地址： 链接：https://pan.baidu.com/s/1rvG2ApC67Jt61t3ISZA3Dg     提取码：logs 
 3. DETR参考官方REPO:  <https://github.com/facebookresearch/detr>
 4. DETR Paper: <https://arxiv.org/abs/2005.12872v1>
 5. 项目中参考的代码地址1：<https://github.com/NVIDIA/trt-samples-for-hackathon-cn/blob/master/python/>
