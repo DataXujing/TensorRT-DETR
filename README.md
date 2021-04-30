@@ -16,7 +16,7 @@
 
 ```shell
 .
-├── model  # DETR模型相关的python代码(主要来源[1].https://github.com/facebookresearch/detr)
+├── model  # DETR模型相关的python代码(主要来源https://github.com/facebookresearch/detr)
 │   ├── README.md
 │   ├── __init__.py
 │   ├── backbone.py  # backbone resnet50
@@ -170,9 +170,9 @@ $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --en
 $ python3 generate_batch_plan.py --model_dir ./output/detr_batch_2_sim.onnx --engine_dir ./output/detr_batch_2_fp16.plan --batch_size=2 --fp16
 ```
 
-TensorRT Inference的结果Demo(左trt fp32,右trt fp16):
+TensorRT Inference的结果Demo(上trt fp32,下trt fp16):
 
-<center class="half">    <img src="./pic/test_fp32.jpg" width="500"/><img src="./pic/test_fp16.jpg" width="500"/> </center>
+<center class="half">    <img src="./pic/test_fp32.jpg"/><img src="./pic/test_fp16.jpg" /> </center>
 
 + 2.使用trtexec
 
@@ -200,7 +200,7 @@ trtexec --verbose --onnx=detr_dynamic_sim.onnx --saveEngine=detr_dynamic_fp16.pl
 >
 > 1. 在tag为20.12-py 的TensorRT镜像中，onnx转trt engine文件时出现了**Myelin Error** (fig1,fig2)[**该问题由导师协助解决，将TensorRT的Docker镜像的tag换成21.03-py**]
 > 2. 如果不做onnx的simplify,无法序列化engine,报错如fig3 [**解决办法是进行onnx-simplifier**]
-> 3. Dynamic Shape可以正常通过torch.onnx.export获得并且在onnxruntime下可正常调用，但是在序列化engine时，无法正常工作（我们提供了dynamic shape的序列化方法和序列化后engine的调用方法，但是遗憾无法序列化dynamic时的engine),序列化engine的错误信息如fig4.[**该问题现在依然没有解决，未来的工作希望基于TensorRT API重新搭建网络或Plugin添加不支持的层**]  **BUG???**
+> 3. Dynamic Shape可以正常通过torch.onnx.export获得并且在onnxruntime下可正常调用，但是在序列化engine时，无法正常工作（我们提供了dynamic shape的序列化方法和序列化后engine的调用方法，但是遗憾无法序列化dynamic时的engine),序列化engine的错误信息如fig4.[**该问题现在依然没有解决，未来的工作希望基于TensorRT API重新搭建网络或Plugin添加不支持的层**]  
 >
 
 
@@ -272,7 +272,7 @@ $ nsys-ui nsight_detr_out
 
 >该过程遇到的问题：
 >
->4.关于平均相对精度的统计中发现，TensorRT序列化的engine在推断后的结果全部为0（使用`polygraphy run detr_sim.onnx --trt --onnxrt --onnx-outputs mark all --trt-outputs mark all`查看原因，得到错误信息如fig5，fig6在第1775个节点后就出现了错误；我们是正常把detr_sim.onnx序列换成功了，但是序列化的engine的识别结果不正确)[**可能是TensorRT ONNX parser权重解析的一个BUG**,这个问题已经在导师的帮助下解决，解决方式参考[第一节](### 1.Pytorch checkpoint to ONNX ),基于onnx-graphsurgeon修改了结点的信息]   **BUG???**
+>4.关于平均相对精度的统计中发现，TensorRT序列化的engine在推断后的结果全部为0（使用`polygraphy run detr_sim.onnx --trt --onnxrt --onnx-outputs mark all --trt-outputs mark all`查看原因，得到错误信息如fig5，fig6在第1775个节点后就出现了错误；我们是正常把detr_sim.onnx序列换成功了，但是序列化的engine的识别结果不正确)[**可能是TensorRT ONNX parser权重解析的一个BUG**,这个问题已经在导师的帮助下解决，解决方式参考[第一节](### 1.Pytorch checkpoint to ONNX ),基于onnx-graphsurgeon修改了结点的信息]   **BUG**
 
 
 
@@ -306,7 +306,7 @@ $ python3 trt_int8_quant.py --onnx_model_path ./detr_sim.onnx --engine_model_pat
 
 > 该过程遇到的问题：
 >
-> 5.失败了，cache文件没有出来！ 检查代码并没有发现什么异常，序列化的engine出来了（感觉并没有INT8量化），并没有cache文件出来。[**可能TensorRT的BUG**, 原因（导师解释）：因为onnx模型中有`where op`，这个`where op`只支持myelin作为backend，且没有int8实现，所以就直接跳过int8 calibration了，导师提供的解决办法是写一个`plugin`来替代`where op`，即使这样也不一定就能够进行int8 calibration]        **BUG???**
+> 5.失败了，cache文件没有出来！ 检查代码并没有发现什么异常，序列化的engine出来了（感觉并没有INT8量化），并没有cache文件出来。[**可能TensorRT的BUG**, 原因（导师解释）：因为onnx模型中有`where op`，这个`where op`只支持myelin作为backend，且没有int8实现，所以就直接跳过int8 calibration了，导师提供的解决办法是写一个`plugin`来替代`where op`，即使这样也不一定就能够进行int8 calibration]        **BUG**
 
 ​            
 
@@ -324,7 +324,7 @@ $ python3 inference_detr_trt.py --model_dir ./detr_sim.onnx --engine_dir ./detr_
 ### 5.Profile每一层的耗时
 
 ```shell
-$ trtexec --verbose --onnx=detr_change.onnx --saveEngine=detr_batch1.plan 
+$ trtexec --verbose --onnx=detr_sim.onnx --saveEngine=detr_batch1.plan 
 $ trtexec --loadEngine=detr_batch1.plan --batch=1
 ```
 
@@ -335,7 +335,7 @@ $ trtexec --loadEngine=detr_batch1.plan --batch=1 --dumpProfile |& tee profile.t
 
 
 ```shell
-# 每一层的耗时，因为层数比较多，这里仅列出耗时比较长一些层的例子和耗时比较少的一些曾的例子
+# 每一层的耗时，因为层数比较多，这里仅列出耗时比较长一些层的例子和耗时比较少的一些层的例子
 
 # 耗时比较多的层的例子：
 --------------------------------------------------------------------------
@@ -361,6 +361,10 @@ Add_690 + Relu_691                  4.71           0.0560           0.2
 上述类型的层有很多个
 ---------------------------------------------------------------------------
 
+# 结论：
+
+1. DETR的backbone部分主要涉及ResNet-50是主要TensorRT inference的耗时的地方
+2. transformer的encoder和decoder耗时较少
 ```
 
 
@@ -384,6 +388,13 @@ Add_690 + Relu_691                  4.71           0.0560           0.2
 4. DETR Paper: <https://arxiv.org/abs/2005.12872v1>
 5. 项目中参考的代码地址1：<https://github.com/NVIDIA/trt-samples-for-hackathon-cn/blob/master/python/>
 6. 项目中参考的代码地址2：<https://github.com/NVIDIA/TensorRT>
+
+
+
+### 8.提交的TensorRT的BUG
+
+1. INT8量化，cache文件没有出来， 检查代码并没有发现什么异常，序列化的engine出来了（感觉并没有INT8量化），并没有cache文件出来。因为onnx模型中有`where op`，这个`where op`只支持myelin作为backend，且没有INT8实现，所以就直接跳过int8 calibration ;
+2. .关于平均相对精度的统计中发现，TensorRT序列化的engine在推断后的结果全部为0（使用`polygraphy run detr_sim.onnx --trt --onnxrt --onnx-outputs mark all --trt-outputs mark all`查看原因，得到错误信息如fig5，fig6在第1775个节点后就出现了错误；我们是正常把detr_sim.onnx序列换成功了，但是序列化的engine的识别结果不正确)（**是TensorRT ONNX parser参数解析的一个BUG**,这个问题已经在导师的帮助下解决，解决方式参考[第一节](### 1.Pytorch checkpoint to ONNX ),基于onnx-graphsurgeon修改了结点的信息）
 
 
 
