@@ -28,7 +28,7 @@ import cupy as cp
 
 CLASSES = ["NA","Class A","Class B","Class C","Class D","Class E","Class F",
         "Class G","Class H","Class I","Class J","Class K","Class L","Class M",
-        "Class N","Class O","Class P","Class Q","Class R","Class S","Class T"]
+        "Class N","Class O","Class P","Class Q","Class R","Class S","Class T","Class U"]
 
 COLORS = [[0.000, 0.447, 0.741], [0.850, 0.325, 0.098], [0.929, 0.694, 0.125],
           [0.494, 0.184, 0.556], [0.466, 0.674, 0.188], [0.301, 0.745, 0.933]]
