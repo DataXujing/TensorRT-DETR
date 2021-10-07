@@ -6,6 +6,8 @@
 
 :white_check_mark: :tada: :tada::tada: 在本次比赛中，该项目获得了 **二等奖** :tada::tada::tada:
 
+:white_check_mark: :tada: :tada::tada:  <https://github.com/NVIDIA/trt-samples-for-hackathon-cn/blob/master/hackathon/TRT-Hackathon-2021-summary.md> :tada::tada::tada:
+
 
 
 #### 0. 环境配置
