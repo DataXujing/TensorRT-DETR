@@ -130,7 +130,7 @@ import onnx_graphsurgeon as gs
 
 graph = gs.import_onnx(onnx.load("./detr_sim.onnx"))
 for node in graph.nodes:
-    if node.name == "Gather_2648":
+    if node.name == "Gather_2682":
         print(node.inputs[1])
         node.inputs[1].values = np.int64(5)
         print(node.inputs[1])
