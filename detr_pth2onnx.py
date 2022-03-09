@@ -109,7 +109,7 @@ class ONNXExporter:
     def onnx_change(onnx_path):
         '''该部分代码由导师提供，解决trt inference 全是0的问题，感谢!!!
         '''
-        node_configs = [(2648,2684),(2775,2777),(2961,2963),(3333,3335),(4077,4079)]
+        node_configs = [(2682,2684),(2775,2777),(2961,2963),(3333,3335),(4077,4079)]
         if 'batch_2' in onnx_path:
             node_number = node_configs[1]
         elif 'batch_4' in onnx_path:
