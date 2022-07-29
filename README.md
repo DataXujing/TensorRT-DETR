@@ -2,6 +2,7 @@
 
 **美迪康AI Lab**
 
+:white_check_mark: :tada::tada: 美迪康AI Lab在2022 TensorRT Transformer模型优化大赛，获得了 **一等奖**，我们连同该项目一起迁移到：<https://github.com/TRT2022>
 
 
 :white_check_mark: :tada: :tada::tada: 在本次比赛中，该项目获得了 **二等奖** :tada::tada::tada:
